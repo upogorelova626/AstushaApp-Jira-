@@ -20,18 +20,23 @@
             "outputPath": "dist/jira",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
             "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@taiga-ui/icons/src",
+                "output": "assets/taiga-ui/icons"
               }
             ],
             "styles": [
+              "node_modules/@taiga-ui/styles/taiga-ui-theme.less",
+              "node_modules/@taiga-ui/styles/taiga-ui-fonts.less",
               "src/styles.less"
             ],
             "scripts": []
@@ -78,10 +83,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "less",
             "assets": [
@@ -90,13 +92,14 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.less"
-            ],
+            "styles": ["src/styles.less"],
             "scripts": []
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
