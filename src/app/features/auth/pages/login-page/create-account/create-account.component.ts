@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {
     TuiTextfieldComponent,
     TuiIcon,
     TuiButton,
     TuiInput
 } from '@taiga-ui/core';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
     selector: 'app-create-account',
@@ -12,4 +13,6 @@ import {
     templateUrl: './create-account.component.html',
     styleUrl: './create-account.component.less'
 })
-export class CreateAccountComponent {}
+export class CreateAccountComponent {
+    authService = inject(AuthService);
+}
