@@ -1,99 +1,110 @@
-<div class="register-page">
-    <div class="register-card">
-        <div class="register-card__logo">
-            <tui-icon class="register-card__logo-icon" icon="@tui.cat" />
+<div class="register-card__logo">
+    <tui-icon class="register-card__logo-icon" icon="@tui.cat" />
 
-            <span class="register-card__logo-text">AstushaApp</span>
-        </div>
-
-        <h1 class="register-card__title"> Создайте аккаунт </h1>
-
-        <form class="register-card__form">
-            <label class="register-card__field">
-                <span class="register-card__label"> Логин </span>
-
-                <tui-textfield
-                    class="register-card__input"
-                    iconStart="@tui.user"
-                >
-                    <input type="text" tuiInput placeholder="Введите логин" />
-                </tui-textfield>
-            </label>
-
-            <label class="register-card__field">
-                <span class="register-card__label"> Электронная почта </span>
-
-                <tui-textfield
-                    class="register-card__input"
-                    iconStart="@tui.mail"
-                >
-                    <input
-                        type="email"
-                        tuiInput
-                        placeholder="Введите адрес электронной почты"
-                    />
-                </tui-textfield>
-            </label>
-
-            <label class="register-card__field">
-                <span class="register-card__label"> Пароль </span>
-
-                <tui-textfield
-                    class="register-card__input"
-                    iconStart="@tui.lock-keyhole"
-                    iconEnd="@tui.eye"
-                >
-                    <input
-                        type="password"
-                        tuiInput
-                        placeholder="Придумайте пароль"
-                    />
-                </tui-textfield>
-            </label>
-
-            <label class="register-card__field">
-                <span class="register-card__label"> Повторите пароль </span>
-
-                <tui-textfield
-                    class="register-card__input"
-                    iconStart="@tui.lock-keyhole"
-                    iconEnd="@tui.eye"
-                >
-                    <input
-                        type="password"
-                        tuiInput
-                        placeholder="Повторите пароль"
-                    />
-                </tui-textfield>
-            </label>
-
-            <label class="register-card__agreement">
-                <input class="register-card__checkbox" type="checkbox" />
-
-                <span class="register-card__agreement-text">
-                    Я принимаю условия использования
-                </span>
-            </label>
-
-            <button
-                tuiButton
-                class="register-card__submit"
-                type="button"
-                appearance="primary"
-                size="l"
-            >
-                Создать аккаунт
-            </button>
-
-            <div class="register-card__divider"></div>
-
-            <div class="register-card__links">
-                <span class="register-card__links-text">
-                    Уже есть аккаунт?
-                </span>
-
-                <a class="register-card__link" href="#"> Войти </a>
-            </div>
-        </form>
-    </div>
+    <span class="register-card__logo-text">AstushaApp</span>
 </div>
+
+<h1 class="register-card__title">Создайте аккаунт</h1>
+
+<form
+    class="register-card__form"
+    [formGroup]="form"
+    (ngSubmit)="createAccount()"
+>
+    <label class="register-card__field">
+        <span class="register-card__label">Логин</span>
+
+        <tui-textfield class="register-card__input" iconStart="@tui.user">
+            <input
+                type="text"
+                tuiInput
+                placeholder="Введите логин"
+                formControlName="login"
+            />
+        </tui-textfield>
+    </label>
+
+    <label class="register-card__field">
+        <span class="register-card__label">Электронная почта</span>
+
+        <tui-textfield class="register-card__input" iconStart="@tui.mail">
+            <input
+                type="email"
+                tuiInput
+                placeholder="Введите адрес электронной почты"
+                formControlName="email"
+            />
+        </tui-textfield>
+    </label>
+
+    <label class="register-card__field">
+        <span class="register-card__label">Пароль</span>
+
+        <tui-textfield
+            class="register-card__input"
+            iconStart="@tui.lock-keyhole"
+        >
+            <input
+                type="password"
+                tuiInput
+                placeholder="Придумайте пароль"
+                formControlName="password"
+            />
+            <tui-icon tuiPassword />
+        </tui-textfield>
+    </label>
+
+    <label class="register-card__field">
+        <span class="register-card__label">Повторите пароль</span>
+
+        <tui-textfield
+            class="register-card__input"
+            iconStart="@tui.lock-keyhole"
+        >
+            <input
+                type="password"
+                tuiInput
+                placeholder="Повторите пароль"
+                formControlName="confirmPassword"
+            />
+            <tui-icon tuiPassword />
+        </tui-textfield>
+
+        @if (
+            form.hasError('passwordMismatch') &&
+            form.controls.confirmPassword.touched
+        ) {
+            <div class="register-card__error"> Пароли не совпадают </div>
+        }
+    </label>
+
+    <label class="register-card__agreement">
+        <input
+            class="register-card__checkbox"
+            type="checkbox"
+            formControlName="agreement"
+        />
+
+        <span class="register-card__agreement-text">
+            Я принимаю условия использования
+        </span>
+    </label>
+
+    <button
+        tuiButton
+        class="register-card__submit"
+        type="submit"
+        appearance="primary"
+        size="l"
+    >
+        Создать аккаунт
+    </button>
+
+    <div class="register-card__divider"></div>
+
+    <div class="register-card__links">
+        <span class="register-card__links-text">Уже есть аккаунт?</span>
+
+        <a class="register-card__link" routerLink="/login"> Войти </a>
+    </div>
+</form>

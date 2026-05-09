@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {TuiTextfield, TuiButton, TuiInput, TuiIcon} from '@taiga-ui/core';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
     selector: 'app-login-page',

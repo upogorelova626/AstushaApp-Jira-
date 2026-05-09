@@ -3,16 +3,138 @@ import {
     TuiTextfieldComponent,
     TuiIcon,
     TuiButton,
-    TuiInput
+    TuiInput,
+    TUI_VALIDATION_ERRORS,
+    TuiDialogService
 } from '@taiga-ui/core';
 import {AuthService} from '../../../services/auth.service';
+import {
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
+    FormControlName
+} from '@angular/forms';
+import {Router} from '@angular/router';
+import {passwordMatchValidator} from '../../../validators/registration.validator';
+import {HttpErrorResponse} from '@angular/common/http';
+import {RouterLink} from '@angular/router';
+import {TuiPassword} from '@taiga-ui/kit';
 
 @Component({
     selector: 'app-create-account',
-    imports: [TuiTextfieldComponent, TuiIcon, TuiButton, TuiInput],
+    imports: [
+        TuiTextfieldComponent,
+        TuiIcon,
+        TuiButton,
+        TuiInput,
+        ReactiveFormsModule,
+        RouterLink,
+        TuiPassword
+    ],
     templateUrl: './create-account.component.html',
-    styleUrl: './create-account.component.less'
+    styleUrl: './create-account.component.less',
+    providers: [
+        {
+            provide: TUI_VALIDATION_ERRORS,
+            useValue: {
+                required: 'Поле обязательно для заполнения',
+                email: 'Введите корректный email',
+                minlength: ({requiredLength}: {requiredLength: number}) =>
+                    `Минимальная длина — ${requiredLength} символов`,
+                maxlength: ({requiredLength}: {requiredLength: number}) =>
+                    `Максимальная длина — ${requiredLength} символов`,
+                passwordMatchValidator: 'Пароли не совпадают'
+            }
+        }
+    ]
 })
 export class CreateAccountComponent {
-    authService = inject(AuthService);
+    private readonly authService = inject(AuthService);
+    private readonly router = inject(Router);
+    private readonly dialogs = inject(TuiDialogService);
+
+    form = new FormGroup(
+        {
+            login: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(3),
+                    Validators.maxLength(30)
+                ]
+            }),
+            email: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.email,
+                    Validators.maxLength(255)
+                ]
+            }),
+            password: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(6),
+                    Validators.maxLength(72)
+                ]
+            }),
+            confirmPassword: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(6),
+                    Validators.maxLength(72)
+                ]
+            }),
+            agreement: new FormControl(false, {
+                nonNullable: true,
+                validators: [Validators.requiredTrue]
+            })
+        },
+        {
+            validators: passwordMatchValidator
+        }
+    );
+
+    createAccount(): void {
+        if (this.form.invalid) {
+            this.form.markAllAsTouched();
+            return;
+        }
+        const {login, email, password} = this.form.getRawValue();
+
+        const payload = {login, email, password};
+
+        this.authService.registration(payload).subscribe({
+            next: () => {
+                this.router.navigate(['/dashboard']);
+            },
+            error: error => {
+                this.dialogs
+                    .open(this.getErrorMessage(error), {
+                        label: 'Ошибка создания аккаунта',
+                        size: 's'
+                    })
+                    .subscribe();
+            }
+        });
+    }
+
+    private getErrorMessage(error: unknown): string {
+        if (error instanceof HttpErrorResponse) {
+            const message = error.error?.message;
+
+            if (Array.isArray(message)) {
+                return message[0] ?? 'Не удалось создать аккаунт';
+            }
+
+            if (typeof message === 'string') {
+                return message;
+            }
+        }
+
+        return 'Не удалось создать аккаунт. Попробуйте позже';
+    }
 }
