@@ -1,1 +1,41 @@
-<p>header works!</p>
+<div class="header">
+    <button appearance="outline" tuiButton type="button">
+        <tui-icon icon="@tui.text-align-justify"
+    /></button>
+
+    <div>
+        <div>Дашборд</div>
+        <tui-breadcrumbs> </tui-breadcrumbs>
+    </div>
+
+    <tui-textfield iconStart="@tui.search" class="header-search">
+        <input
+            formControlName="search"
+            placeholder="Search"
+            tuiInput
+            [placeholder]="'Поиск задач, проектов, людей...'"
+        />
+    </tui-textfield>
+
+    <a href="" target="_blank" tuiButton iconStart="@tui.plus"> Создать </a>
+
+    <button appearance="outline" tuiButton type="button">
+        <tui-icon icon="@tui.bell"
+    /></button>
+
+    <button appearance="outline" tuiButton type="button">
+        <tui-icon icon="@tui.circle-question-mark"
+    /></button>
+
+    <button
+        appearance="outline"
+        tuiButton
+        type="button"
+        iconEnd="@tui.chevron-down"
+    >
+        <div size="xs" tuiAvatar="@tui.user">
+            <img alt="" src="" class="avatar-img" />
+        </div>
+        Астюша Астюшьевич
+    </button>
+</div>

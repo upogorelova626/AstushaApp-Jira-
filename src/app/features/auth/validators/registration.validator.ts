@@ -3,16 +3,36 @@ import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
 export const passwordMatchValidator: ValidatorFn = (
     control: AbstractControl
 ): ValidationErrors | null => {
-    const password = control.get('password')?.value;
-    const confirmPassword = control.get('confirmPassword')?.value;
+    const passwordControl = control.get('password');
+    const confirmPasswordControl = control.get('confirmPassword');
 
-    if (!password || !confirmPassword) {
+    if (!passwordControl || !confirmPasswordControl) {
         return null;
     }
 
-    return password === confirmPassword
-        ? null
-        : {
-              passwordMismatch: true
-          };
+    const password = passwordControl.value;
+    const confirmPassword = confirmPasswordControl.value;
+
+    const confirmPasswordErrors = {
+        ...(confirmPasswordControl.errors ?? {})
+    };
+
+    if (!password || !confirmPassword || password === confirmPassword) {
+        delete confirmPasswordErrors['passwordMismatch'];
+
+        confirmPasswordControl.setErrors(
+            Object.keys(confirmPasswordErrors).length
+                ? confirmPasswordErrors
+                : null
+        );
+
+        return null;
+    }
+
+    confirmPasswordControl.setErrors({
+        ...confirmPasswordErrors,
+        passwordMismatch: true
+    });
+
+    return null;
 };

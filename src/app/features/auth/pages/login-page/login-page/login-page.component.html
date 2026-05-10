@@ -6,7 +6,7 @@
 
 <h1 class="login-card__title"> Войдите, чтобы продолжить </h1>
 
-<form class="login-card__form">
+<form class="login-card__form" [formGroup]="form">
     <label class="login-card__field">
         <span class="login-card__label"> Электронная почта </span>
 
@@ -15,6 +15,7 @@
                 type="email"
                 tuiInput
                 placeholder="Введите адрес электронной почты"
+                formControlName="email"
             />
         </tui-textfield>
     </label>
@@ -22,17 +23,23 @@
     <label class="login-card__field">
         <span class="login-card__label"> Пароль </span>
 
-        <tui-textfield
-            class="login-card__input"
-            iconStart="@tui.lock-keyhole"
-            iconEnd="@tui.eye"
-        >
-            <input type="password" tuiInput placeholder="Введите пароль" />
+        <tui-textfield class="login-card__input" iconStart="@tui.lock-keyhole">
+            <input
+                type="password"
+                tuiInput
+                placeholder="Введите пароль"
+                formControlName="password"
+            />
+            <tui-icon tuiPassword />
         </tui-textfield>
     </label>
 
     <label class="login-card__remember">
-        <input class="login-card__checkbox" type="checkbox" />
+        <input
+            class="login-card__checkbox"
+            type="checkbox"
+            formControlName="rememberMe"
+        />
 
         <span class="login-card__remember-text"> Запомнить меня </span>
     </label>
@@ -43,6 +50,7 @@
         type="button"
         appearance="primary"
         size="l"
+        (click)="login()"
     >
         Продолжить
     </button>

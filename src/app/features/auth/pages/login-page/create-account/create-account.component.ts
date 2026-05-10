@@ -1,25 +1,25 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject} from '@angular/core';
-import {
-    TuiTextfieldComponent,
-    TuiIcon,
-    TuiButton,
-    TuiInput,
-    TUI_VALIDATION_ERRORS,
-    TuiDialogService
-} from '@taiga-ui/core';
-import {AuthService} from '../../../services/auth.service';
 import {
     FormControl,
     FormGroup,
     ReactiveFormsModule,
-    Validators,
-    FormControlName
+    Validators
 } from '@angular/forms';
-import {Router} from '@angular/router';
-import {passwordMatchValidator} from '../../../validators/registration.validator';
-import {HttpErrorResponse} from '@angular/common/http';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
+import {
+    TUI_VALIDATION_ERRORS,
+    TuiButton,
+    TuiDialogService,
+    TuiError,
+    TuiIcon,
+    TuiInput,
+    TuiTextfieldComponent
+} from '@taiga-ui/core';
 import {TuiPassword} from '@taiga-ui/kit';
+
+import {AuthService} from '../../../services/auth.service';
+import {passwordMatchValidator} from '../../../validators/registration.validator';
 
 @Component({
     selector: 'app-create-account',
@@ -30,7 +30,8 @@ import {TuiPassword} from '@taiga-ui/kit';
         TuiInput,
         ReactiveFormsModule,
         RouterLink,
-        TuiPassword
+        TuiPassword,
+        TuiError
     ],
     templateUrl: './create-account.component.html',
     styleUrl: './create-account.component.less',
@@ -44,7 +45,7 @@ import {TuiPassword} from '@taiga-ui/kit';
                     `Минимальная длина — ${requiredLength} символов`,
                 maxlength: ({requiredLength}: {requiredLength: number}) =>
                     `Максимальная длина — ${requiredLength} символов`,
-                passwordMatchValidator: 'Пароли не совпадают'
+                passwordMismatch: 'Пароли не совпадают'
             }
         }
     ]
@@ -101,11 +102,17 @@ export class CreateAccountComponent {
     createAccount(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
+
             return;
         }
+
         const {login, email, password} = this.form.getRawValue();
 
-        const payload = {login, email, password};
+        const payload = {
+            login,
+            email,
+            password
+        };
 
         this.authService.registration(payload).subscribe({
             next: () => {
