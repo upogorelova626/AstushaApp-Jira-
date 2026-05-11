@@ -176,15 +176,26 @@
             type="button"
             appearance="flat"
         >
-            <div class="sidebar__avatar">
-                <span>А</span>
-                <div class="sidebar__avatar-status"></div>
-            </div>
+            @let profile = profile$ | async;
+            @if (profile) {
+                <div class="sidebar__avatar">
+                    <span>А</span>
+                    <div class="sidebar__avatar-status"></div>
+                </div>
 
-            <div class="sidebar__profile-info">
-                <span class="sidebar__profile-name">Астюша</span>
-                <span class="sidebar__profile-role">Администратор</span>
-            </div>
+                <div class="sidebar__profile-info">
+                    @if (profile?.firstName) {
+                        <span class="sidebar__profile-name">
+                            {{ profile.firstName }} {{ profile.lastName }}
+                        </span>
+                        <span class="sidebar__profile-role">
+                            {{ profile.position }}
+                        </span>
+                    } @else {
+                        <span>{{ profile.login }}</span>
+                    }
+                </div>
+            }
 
             <tui-icon class="sidebar__profile-arrow" icon="@tui.chevron-down" />
         </button>

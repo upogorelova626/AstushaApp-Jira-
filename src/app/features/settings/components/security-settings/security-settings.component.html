@@ -1,0 +1,97 @@
+<div class="security-card">
+    <div class="security-card__header">
+        <div class="security-card__icon">
+            <tui-icon icon="@tui.shield-check" />
+        </div>
+
+        <div class="security-card__header-text">
+            <h2 class="security-card__title">Безопасность</h2>
+
+            <p class="security-card__description">
+                Управление паролями, двухфакторной защитой и активными сессиями
+            </p>
+        </div>
+    </div>
+
+    <div class="security-card__list">
+        <div class="security-card__item">
+            <div class="security-card__item-info">
+                <div class="security-card__item-icon">
+                    <tui-icon icon="@tui.lock-keyhole" />
+                </div>
+
+                <div>
+                    <h3 class="security-card__item-title">Пароль</h3>
+
+                    <p class="security-card__item-description">
+                        Измените пароль для входа в аккаунт
+                    </p>
+                </div>
+            </div>
+
+            <button
+                tuiButton
+                type="button"
+                appearance="outline"
+                size="s"
+                iconEnd="@tui.chevron-right"
+            >
+                Изменить пароль
+            </button>
+        </div>
+
+        <div class="security-card__item">
+            <div class="security-card__item-info">
+                <div class="security-card__item-icon">
+                    <tui-icon icon="@tui.badge-check" />
+                </div>
+
+                <div>
+                    <h3 class="security-card__item-title">
+                        Двухфакторная аутентификация
+                    </h3>
+
+                    <p class="security-card__item-description">
+                        Добавьте дополнительную защиту аккаунта
+                    </p>
+                </div>
+            </div>
+
+            <button
+                tuiButton
+                type="button"
+                appearance="outline"
+                size="s"
+                iconEnd="@tui.chevron-right"
+            >
+                Включить
+            </button>
+        </div>
+
+        <div class="security-card__item">
+            <div class="security-card__item-info">
+                <div class="security-card__item-icon">
+                    <tui-icon icon="@tui.monitor" />
+                </div>
+
+                <div>
+                    <h3 class="security-card__item-title">Активные сессии</h3>
+
+                    <p class="security-card__item-description">
+                        Посмотрите устройства, на которых выполнен вход
+                    </p>
+                </div>
+            </div>
+
+            <button
+                tuiButton
+                type="button"
+                appearance="outline"
+                size="s"
+                iconEnd="@tui.chevron-right"
+            >
+                Просмотреть
+            </button>
+        </div>
+    </div>
+</div>

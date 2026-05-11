@@ -1,22 +1,17 @@
 import {Component} from '@angular/core';
-import {
-    TuiIcon,
-    TuiTextfieldComponent,
-    TuiInput,
-    TuiButton,
-    TuiLink
-} from '@taiga-ui/core';
-
-import {TuiBreadcrumbs} from '@taiga-ui/kit';
+import {ReactiveFormsModule} from '@angular/forms';
+import {TuiAvatar, TuiBreadcrumbs} from '@taiga-ui/kit';
+import {TuiButton, TuiTextfield} from '@taiga-ui/core';
 
 @Component({
     selector: 'app-header',
     imports: [
-        TuiIcon,
-        TuiTextfieldComponent,
-        TuiInput,
+        ReactiveFormsModule,
+        TuiAvatar,
+        TuiBreadcrumbs,
         TuiButton,
-        TuiBreadcrumbs
+
+        TuiTextfield
     ],
     templateUrl: './header.component.html',
     styleUrl: './header.component.less'

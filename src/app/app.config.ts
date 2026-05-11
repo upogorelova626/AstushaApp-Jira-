@@ -1,10 +1,11 @@
 import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
-import {provideTaiga} from '@taiga-ui/core';
-import {routes} from './app.routes';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
-import {authInterceptor} from './features/auth/auth.interceptor';
+import {provideTaiga} from '@taiga-ui/core';
+
+import {routes} from './app.routes';
+import {credentialsInterceptor} from './features/auth/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -12,6 +13,6 @@ export const appConfig: ApplicationConfig = {
         provideRouter(routes),
         provideAnimations(),
         provideTaiga(),
-        provideHttpClient(withInterceptors([authInterceptor]))
+        provideHttpClient(withInterceptors([credentialsInterceptor]))
     ]
 };

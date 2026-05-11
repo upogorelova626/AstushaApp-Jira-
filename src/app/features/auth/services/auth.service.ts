@@ -4,10 +4,11 @@ import {
     AuthResponse,
     LoginRequest,
     MeResponse,
-    RegisterRequest
+    RegisterRequest,
+    LogoutResponse
 } from '../interfaces/auth.interface';
 import {HttpClient} from '@angular/common/http';
-import {tap} from 'rxjs';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -17,42 +18,38 @@ export class AuthService {
     private readonly baseApiUrl = 'http://localhost:3000';
 
     registration(payload: RegisterRequest) {
-        return this.httpClient
-            .post<AuthResponse>(`${this.baseApiUrl}/auth/register`, payload)
-            .pipe(
-                tap(response => {
-                    this.saveToken(response.accessToken);
-                })
-            );
+        return this.httpClient.post<AuthResponse>(
+            `${this.baseApiUrl}/auth/register`,
+            payload,
+            {withCredentials: true}
+        );
     }
 
     login(payload: LoginRequest) {
-        return this.httpClient
-            .post<AuthResponse>(`${this.baseApiUrl}/auth/login`, payload)
-            .pipe(
-                tap(response => {
-                    this.saveToken(response.accessToken);
-                })
-            );
+        return this.httpClient.post<AuthResponse>(
+            `${this.baseApiUrl}/auth/login`,
+            payload,
+            {withCredentials: true}
+        );
     }
 
     logout() {
-        localStorage.removeItem('accessToken');
+        return this.httpClient.post<LogoutResponse>(
+            `${this.baseApiUrl}/auth/logout`,
+            {},
+            {withCredentials: true}
+        );
     }
 
     me() {
-        return this.httpClient.get<MeResponse>(`${this.baseApiUrl}/auth/me`);
+        return this.httpClient.get<MeResponse>(`${this.baseApiUrl}/auth/me`, {
+            withCredentials: true
+        });
     }
 
-    isAuth() {
-        return Boolean(this.getToken());
-    }
-
-    getToken(): string | null {
-        return localStorage.getItem('accessToken');
-    }
-
-    private saveToken(token: string) {
-        localStorage.setItem('accessToken', token);
+    refresh() {
+        return this.httpClient.get<AuthResponse>(`${this.baseApiUrl}/auth/me`, {
+            withCredentials: true
+        });
     }
 }

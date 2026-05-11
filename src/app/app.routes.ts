@@ -5,6 +5,7 @@ import {ForgotPasswordComponent} from './features/auth/pages/login-page/forgot-p
 import {AuthPageComponent} from './features/auth/pages/login-page/auth-page/auth-page.component';
 import {DashboardPageComponent} from './features/dashboard/pages/dashboard-page/dashboard-page.component';
 import {SettingsPageComponent} from './features/settings/settings-page/settings-page.component';
+import {authGuard} from './features/auth/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -33,11 +34,13 @@ export const routes: Routes = [
     },
     {
         path: 'dashboard',
-        component: DashboardPageComponent
+        component: DashboardPageComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'settings',
-        component: SettingsPageComponent
+        component: SettingsPageComponent,
+        canActivate: [authGuard]
     },
     {
         path: '',

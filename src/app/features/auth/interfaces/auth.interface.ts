@@ -19,11 +19,14 @@ export interface AuthUser {
 }
 
 export interface AuthResponse {
-    accessToken: string;
     user: AuthUser;
 }
 
 export interface MeResponse {
     id: string;
     login: string;
+}
+
+export interface LogoutResponse {
+    success: boolean;
 }
