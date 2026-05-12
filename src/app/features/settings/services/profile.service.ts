@@ -2,6 +2,10 @@ import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {UserProfile, UserProfileRequest} from '../interfaces/profile.interface';
 import {
+    ChangePasswordRequest,
+    SuccessResponse
+} from '../interfaces/password.interface';
+import {
     BehaviorSubject,
     Observable,
     shareReplay,
@@ -38,6 +42,13 @@ export class ProfileService {
     deleteProfile() {
         return this.httpClient.delete<{success: boolean}>(
             `${this.baseApiUrl}/users/profile`
+        );
+    }
+
+    changePassword(payload: ChangePasswordRequest) {
+        return this.httpClient.patch<SuccessResponse>(
+            `${this.baseApiUrl}/users/profile/password`,
+            payload
         );
     }
 }

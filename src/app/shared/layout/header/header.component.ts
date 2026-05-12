@@ -1,7 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TuiAvatar, TuiBreadcrumbs} from '@taiga-ui/kit';
 import {TuiButton, TuiTextfield} from '@taiga-ui/core';
+import {ProfileService} from '../../../features/settings/services/profile.service';
+import {TuiInput} from '@taiga-ui/core';
 
 @Component({
     selector: 'app-header',
@@ -10,10 +12,14 @@ import {TuiButton, TuiTextfield} from '@taiga-ui/core';
         TuiAvatar,
         TuiBreadcrumbs,
         TuiButton,
+        TuiInput,
 
         TuiTextfield
     ],
     templateUrl: './header.component.html',
     styleUrl: './header.component.less'
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+    private readonly profileService = inject(ProfileService);
+    protected readonly profile$ = this.profileService.profile$;
+}

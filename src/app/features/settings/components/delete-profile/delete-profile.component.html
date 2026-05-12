@@ -32,8 +32,39 @@
             appearance="accent"
             size="m"
             iconStart="@tui.trash-2"
+            (click)="openDeleteDialog()"
         >
             Удалить аккаунт
         </button>
+        <ng-template
+            let-id="id"
+            [tuiDialogOptions]="{size: 's'}"
+            [(tuiDialog)]="isDeleteDialogOpen"
+        >
+            <header tuiHeader>
+                <hgroup tuiTitle>
+                    <h2 [id]="id">Вы точно хотите удалить аккаунт?</h2>
+                    <p>Это действие нельзя будет отменить</p>
+                </hgroup>
+            </header>
+            <footer>
+                <button
+                    tuiButton
+                    type="button"
+                    appearance="outline"
+                    (click)="deleteProfile()"
+                >
+                    Удалить
+                </button>
+                <button
+                    tuiButton
+                    type="button"
+                    appearance="primary"
+                    (click)="closeDeleteDialog()"
+                >
+                    Отмена
+                </button>
+            </footer>
+        </ng-template>
     </div>
 </div>

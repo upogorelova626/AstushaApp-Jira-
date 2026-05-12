@@ -1,10 +1,107 @@
-import {Component} from '@angular/core';
-import {TuiIcon, TuiButton, TuiInput} from '@taiga-ui/core';
+import {Component, inject, signal} from '@angular/core';
+import {
+    TuiButton,
+    TuiDialog,
+    TuiIcon,
+    TuiInput,
+    TuiTextfield,
+    TuiError
+} from '@taiga-ui/core';
+import {Router} from '@angular/router';
+import {
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators
+} from '@angular/forms';
+
+import {ProfileService} from '../../services/profile.service';
+import {
+    differentPasswordValidator,
+    newPasswordMatchValidator
+} from '../../validators/change-password.validator';
 
 @Component({
     selector: 'app-security-settings',
-    imports: [TuiIcon, TuiButton, TuiInput],
+    imports: [
+        TuiIcon,
+        TuiButton,
+        TuiInput,
+        TuiError,
+        TuiDialog,
+        TuiTextfield,
+        ReactiveFormsModule
+    ],
     templateUrl: './security-settings.component.html',
     styleUrl: './security-settings.component.less'
 })
-export class SecuritySettingsComponent {}
+export class SecuritySettingsComponent {
+    protected readonly profileService = inject(ProfileService);
+    private readonly router = inject(Router);
+
+    protected readonly isChangeDialogOpen = signal(false);
+
+    protected readonly form = new FormGroup(
+        {
+            currentPassword: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(6),
+                    Validators.maxLength(72)
+                ]
+            }),
+            newPassword: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(6),
+                    Validators.maxLength(72)
+                ]
+            }),
+            confirmNewPassword: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(6),
+                    Validators.maxLength(72)
+                ]
+            })
+        },
+        {
+            validators: [
+                differentPasswordValidator(),
+                newPasswordMatchValidator()
+            ]
+        }
+    );
+
+    protected openChangePasswordDialog(): void {
+        this.isChangeDialogOpen.set(true);
+    }
+
+    protected closeChangePasswordDialog(): void {
+        this.isChangeDialogOpen.set(false);
+        this.form.reset();
+    }
+
+    protected changePassword(): void {
+        if (this.form.invalid) {
+            this.form.markAllAsTouched();
+
+            return;
+        }
+
+        const {currentPassword, newPassword} = this.form.getRawValue();
+
+        this.profileService
+            .changePassword({
+                currentPassword,
+                newPassword
+            })
+            .subscribe(() => {
+                this.closeChangePasswordDialog();
+                this.router.navigate(['/login']);
+            });
+    }
+}
