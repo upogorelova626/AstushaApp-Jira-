@@ -5,7 +5,9 @@ import {ForgotPasswordComponent} from './features/auth/pages/login-page/forgot-p
 import {AuthPageComponent} from './features/auth/pages/login-page/auth-page/auth-page.component';
 import {DashboardPageComponent} from './features/dashboard/pages/dashboard-page/dashboard-page.component';
 import {SettingsPageComponent} from './features/settings/settings-page/settings-page.component';
+import {ProjectsPageComponent} from './features/projects/projects-page/projects-page.component';
 import {authGuard} from './features/auth/guards/auth.guard';
+import {CreateProjectDialogComponent} from './features/projects/components/create-project-dialog/create-project-dialog.component';
 
 export const routes: Routes = [
     {
@@ -42,6 +44,17 @@ export const routes: Routes = [
         component: SettingsPageComponent,
         canActivate: [authGuard]
     },
+    {
+        path: 'projects',
+        component: ProjectsPageComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'projects/create',
+        component: CreateProjectDialogComponent,
+        canActivate: [authGuard]
+    },
+
     {
         path: '',
         pathMatch: 'full',

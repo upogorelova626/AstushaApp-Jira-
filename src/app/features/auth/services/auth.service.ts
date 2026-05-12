@@ -48,8 +48,11 @@ export class AuthService {
     }
 
     refresh() {
-        return this.httpClient.get<AuthResponse>(`${this.baseApiUrl}/auth/me`, {
-            withCredentials: true
-        });
+        return this.httpClient.post<AuthResponse>(
+            `${this.baseApiUrl}/auth/refresh`,
+            {
+                withCredentials: true
+            }
+        );
     }
 }
