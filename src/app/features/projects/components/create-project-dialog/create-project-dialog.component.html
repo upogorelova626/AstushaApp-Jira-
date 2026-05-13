@@ -1,1 +1,198 @@
-<div class="create-project-page"> 123 </div>
+<div class="create-project-page">
+    <form class="create-project-card" [formGroup]="form">
+        <header class="create-project-card__header">
+            <div class="create-project-card__title-block">
+                <h1 class="create-project-card__title">Создать проект</h1>
+
+                <p class="create-project-card__description">
+                    Заполните основные данные проекта. Владельцем проекта будете
+                    вы.
+                </p>
+            </div>
+
+            <a
+                tuiIconButton
+                class="create-project-card__close"
+                routerLink="/projects"
+                appearance="outline"
+                size="m"
+                iconStart="@tui.x"
+            >
+                Закрыть
+            </a>
+        </header>
+
+        <div class="create-project-card__content">
+            <section class="create-project-card__section">
+                <div class="create-project-card__section-header">
+                    <div class="create-project-card__section-icon">
+                        <tui-icon icon="@tui.folder-plus" />
+                    </div>
+
+                    <div>
+                        <h2 class="create-project-card__section-title">
+                            Основная информация
+                        </h2>
+
+                        <p class="create-project-card__section-description">
+                            Название, описание и срок выполнения проекта
+                        </p>
+                    </div>
+                </div>
+
+                <label class="create-project-card__field">
+                    <span class="create-project-card__label">
+                        Название проекта
+                    </span>
+
+                    <tui-textfield tuiTextfieldSize="m">
+                        <input
+                            tuiInput
+                            type="text"
+                            placeholder="Введите название проекта"
+                            formControlName="title"
+                        />
+                    </tui-textfield>
+                </label>
+
+                <label class="create-project-card__field">
+                    <span class="create-project-card__label">
+                        Описание проекта
+                    </span>
+
+                    <tui-textfield tuiTextfieldSize="m">
+                        <textarea
+                            tuiTextarea
+                            placeholder="Расскажите о целях и задачах проекта"
+                            formControlName="description"
+                        ></textarea>
+                    </tui-textfield>
+                </label>
+
+                <div class="create-project-card__field">
+                    <span class="create-project-card__label">Дедлайн</span>
+
+                    <tui-textfield
+                        tuiTextfieldSize="m"
+                        iconStart="@tui.calendar"
+                    >
+                        <input
+                            tuiInputDate
+                            placeholder="Выберите дату"
+                            formControlName="deadline"
+                        />
+
+                        <tui-calendar *tuiDropdown />
+                    </tui-textfield>
+                </div>
+            </section>
+
+            <section class="create-project-card__section">
+                <div class="create-project-card__section-header">
+                    <div class="create-project-card__section-icon">
+                        <tui-icon icon="@tui.sliders-horizontal" />
+                    </div>
+
+                    <div>
+                        <h2 class="create-project-card__section-title">
+                            Параметры проекта
+                        </h2>
+
+                        <p class="create-project-card__section-description">
+                            Приоритет, команда и дальнейшая настройка проекта
+                        </p>
+                    </div>
+                </div>
+
+                <div class="create-project-card__options">
+                    <div class="create-project-card__option">
+                        <div class="create-project-card__option-text">
+                            <h3 class="create-project-card__option-title">
+                                Приоритет
+                            </h3>
+
+                            <p class="create-project-card__option-description">
+                                Выберите важность проекта
+                            </p>
+                        </div>
+
+                        <button
+                            tuiButton
+                            tuiChevron
+                            class="create-project-card__option-button"
+                            type="button"
+                            appearance="outline"
+                            size="m"
+                            [attr.aria-expanded]="priorityDropdownOpen()"
+                            [tuiDropdown]="priorityDropdown"
+                            [tuiDropdownManual]="priorityDropdownOpen()"
+                            [tuiObscuredEnabled]="priorityDropdownOpen()"
+                            (click)="onPriorityClick()"
+                            (tuiActiveZoneChange)="onPriorityActiveZone($event)"
+                            (tuiObscured)="onPriorityObscured($event)"
+                        >
+                            {{ priorityButtonLabel() }}
+
+                            <ng-template #priorityDropdown>
+                                <tui-data-list>
+                                    @for (
+                                        priority of priorityOptions;
+                                        track priority.value
+                                    ) {
+                                        <button
+                                            tuiOption
+                                            type="button"
+                                            (click)="onPrioritySelect(priority)"
+                                        >
+                                            {{ priority.label }}
+                                        </button>
+                                    }
+                                </tui-data-list>
+                            </ng-template>
+                        </button>
+                    </div>
+
+                    <div class="create-project-card__option">
+                        <div class="create-project-card__option-text">
+                            <h3 class="create-project-card__option-title">
+                                Команда
+                            </h3>
+
+                            <p class="create-project-card__option-description">
+                                Добавьте участников проекта
+                            </p>
+                        </div>
+
+                        <button
+                            tuiButton
+                            class="create-project-card__option-button"
+                            type="button"
+                            appearance="outline"
+                            size="m"
+                            iconEnd="@tui.chevron-down"
+                        >
+                            Выбрать участников
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="create-project-card__footer">
+            <a tuiButton routerLink="/projects" appearance="outline" size="m">
+                Отмена
+            </a>
+
+            <button
+                tuiButton
+                type="submit"
+                appearance="primary"
+                size="m"
+                iconStart="@tui.plus"
+                (click)="createProject()"
+            >
+                Создать проект
+            </button>
+        </footer>
+    </form>
+</div>

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {TuiButton, TuiTextfield, TuiInput} from '@taiga-ui/core';
 import {TuiDataListWrapper} from '@taiga-ui/kit';
-import {RouterLink} from '@angular/router';
+import {RouterLink, RouterOutlet} from '@angular/router';
 
 @Component({
     selector: 'app-projects-searching',
@@ -10,7 +10,8 @@ import {RouterLink} from '@angular/router';
         TuiTextfield,
         TuiInput,
         TuiDataListWrapper,
-        RouterLink
+        RouterLink,
+        RouterOutlet
     ],
     templateUrl: './projects-searching.component.html',
     styleUrl: './projects-searching.component.less'

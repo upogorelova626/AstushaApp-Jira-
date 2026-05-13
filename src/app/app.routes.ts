@@ -1,4 +1,5 @@
 import {Routes} from '@angular/router';
+
 import {LoginPageComponent} from './features/auth/pages/login-page/login-page/login-page.component';
 import {CreateAccountComponent} from './features/auth/pages/login-page/create-account/create-account.component';
 import {ForgotPasswordComponent} from './features/auth/pages/login-page/forgot-password/forgot-password.component';
@@ -6,10 +7,37 @@ import {AuthPageComponent} from './features/auth/pages/login-page/auth-page/auth
 import {DashboardPageComponent} from './features/dashboard/pages/dashboard-page/dashboard-page.component';
 import {SettingsPageComponent} from './features/settings/settings-page/settings-page.component';
 import {ProjectsPageComponent} from './features/projects/projects-page/projects-page.component';
-import {authGuard} from './features/auth/guards/auth.guard';
 import {CreateProjectDialogComponent} from './features/projects/components/create-project-dialog/create-project-dialog.component';
+import {authGuard} from './features/auth/guards/auth.guard';
 
 export const routes: Routes = [
+    {
+        path: 'projects',
+        canActivate: [authGuard],
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                component: ProjectsPageComponent,
+                canActivate: [authGuard]
+            },
+            {
+                path: 'create',
+                component: CreateProjectDialogComponent,
+                canActivate: [authGuard]
+            }
+        ]
+    },
+    {
+        path: 'dashboard',
+        component: DashboardPageComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'settings',
+        component: SettingsPageComponent,
+        canActivate: [authGuard]
+    },
     {
         path: '',
         component: AuthPageComponent,
@@ -26,7 +54,6 @@ export const routes: Routes = [
                 path: 'forgot-password',
                 component: ForgotPasswordComponent
             },
-
             {
                 path: '',
                 pathMatch: 'full',
@@ -35,33 +62,7 @@ export const routes: Routes = [
         ]
     },
     {
-        path: 'dashboard',
-        component: DashboardPageComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'settings',
-        component: SettingsPageComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'projects',
-        component: ProjectsPageComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'projects/create',
-        component: CreateProjectDialogComponent,
-        canActivate: [authGuard]
-    },
-
-    {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'auth/login'
-    },
-    {
         path: '**',
-        redirectTo: 'auth/login'
+        redirectTo: 'login'
     }
 ];

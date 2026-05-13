@@ -1,13 +1,13 @@
 import {inject, Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 import {
     AuthResponse,
     LoginRequest,
+    LogoutResponse,
     MeResponse,
-    RegisterRequest,
-    LogoutResponse
+    RegisterRequest
 } from '../interfaces/auth.interface';
-import {HttpClient} from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -50,9 +50,8 @@ export class AuthService {
     refresh() {
         return this.httpClient.post<AuthResponse>(
             `${this.baseApiUrl}/auth/refresh`,
-            {
-                withCredentials: true
-            }
+            {},
+            {withCredentials: true}
         );
     }
 }
