@@ -36,8 +36,9 @@ export interface ProjectResponse {
     description: string | null;
     status: ProjectStatus;
     priority: ProjectPriority;
-    deadline: string | null;
+    deadline: string;
     creatorId: string;
+    creator?: ProjectUser;
     createdAt: string;
     updatedAt: string;
     members: ProjectMember[];

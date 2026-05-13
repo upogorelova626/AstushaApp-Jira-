@@ -18,4 +18,10 @@ export class ProjectService {
             payload
         );
     }
+
+    getProjects() {
+        return this.httpClient.get<ProjectResponse[]>(
+            `${this.baseApiUrl}/projects`
+        );
+    }
 }
